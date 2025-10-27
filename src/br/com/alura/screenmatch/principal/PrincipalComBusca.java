@@ -21,35 +21,42 @@ public class PrincipalComBusca {
 
         String endereco = "http://www.omdbapi.com/?t=" + busca + "&apikey=91835625";
 
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(endereco))
-                .build();
-
-        HttpResponse<String> response = client
-                .send(request, HttpResponse.BodyHandlers.ofString());
-
-        String json = response.body();
-        System.out.println(json);
-
-        // Passando UPPER_CAMEL_CASE por que no JSON a chave tem a primeira letra maiúscula e a nossa classe não
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .create();
-
-        // Titulo titulo = gson.fromJson(json, Titulo.class);
-
-        TituloOmdb tituloOmdb = gson.fromJson(json, TituloOmdb.class);
-        System.out.println(tituloOmdb);
-
         try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest
+                    .newBuilder()
+                    .uri(URI.create(endereco))
+                    .build();
+
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+            String json = response.body();
+            System.out.println(json);
+
+            // Passando UPPER_CAMEL_CASE por que no JSON a chave tem a primeira letra maiúscula e a nossa classe não
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                    .create();
+
+            // Titulo titulo = gson.fromJson(json, Titulo.class);
+
+            TituloOmdb tituloOmdb = gson.fromJson(json, TituloOmdb.class);
+            System.out.println(tituloOmdb);
+
+
             Titulo titulo = new Titulo(tituloOmdb);
             System.out.println("Título convertido: ");
             System.out.println(titulo);
         } catch (NumberFormatException e) {
             System.out.println("Aconteceu um erro: ");
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro de argumento ilegal: ");
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro: ");
             System.out.println(e.getMessage());
         }
     }
