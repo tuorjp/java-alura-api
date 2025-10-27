@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.excecao.ErroDeConversaoDeAno;
 import br.com.alura.screenmatch.modelos.Titulo;
 import br.com.alura.screenmatch.modelos.TituloOmdb;
 import com.google.gson.FieldNamingPolicy;
@@ -19,7 +20,7 @@ public class PrincipalComBusca {
         System.out.println("Digite o nome do filme: ");
         var busca = scan.nextLine();
 
-        String endereco = "http://www.omdbapi.com/?t=" + busca + "&apikey=91835625";
+        String endereco = "http://www.omdbapi.com/?t=" + busca.replace(" ", "+") + "&apikey=91835625";
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -55,8 +56,8 @@ public class PrincipalComBusca {
         } catch (IllegalArgumentException e) {
             System.out.println("Erro de argumento ilegal: ");
             System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Erro: ");
+        } catch (ErroDeConversaoDeAno e) {
+            System.out.println("Erro ao converter ano: ");
             System.out.println(e.getMessage());
         }
     }
