@@ -63,6 +63,14 @@ public class Titulo implements Comparable<Titulo> {
         totalDeAvaliacoes++;
     }
 
+    @Override
+    public String toString() {
+        return "Titulo{" +
+                "nome='" + nome + '\'' +
+                ", anoDeLancamento=" + anoDeLancamento +
+                '}';
+    }
+
     public double pegaMedia(){
         return somaDasAvaliacoes / totalDeAvaliacoes;
     }
